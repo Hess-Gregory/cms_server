@@ -1,0 +1,50 @@
+{
+    "development": {
+      "0": 1,
+      "username": "root",
+      "password": "",
+      "database": "cms-Fullhestack_dev",
+      "host": "localhost",
+      "dialect": "mysql",
+      "charset_collate": "utf8_general_ci",
+      "charset_charater": "utf8",
+      "port": 3308,  
+      "pool": {
+        "max": 5,
+        "min": 0,
+        "idle": 10000
+      }
+    },
+    "test": {
+      "1": 1,
+      "username": "root",
+      "password": "",
+      "database": "cms-Fullhestack_test",
+      "host": "localhost",
+      "dialect": "mysql",
+      "charset_collate": "utf8_general_ci",
+      "charset_charater": "utf8",
+      "port": 3308,
+      "pool": {
+        "max": 5,
+        "min": 0,
+        "idle": 10000
+      }
+    },
+    "production": {
+      "2": 1,
+      "username": "root",
+      "password": "",
+      "database": "cms-Fullhestack_prod",
+      "host": "localhost",
+      "dialect": "mysql",
+      "charset_collate": "utf8_general_ci",
+      "charset_charater": "utf8",
+      "port": 3308,
+      "pool": {
+        "max": 5,
+        "min": 0,
+        "idle": 10000
+      }
+    }
+  }
