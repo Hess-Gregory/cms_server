@@ -55,16 +55,9 @@ const connection = await mysql.createConnection({
   FROM INFORMATION_SCHEMA.SCHEMATA
   WHERE SCHEMA_NAME LIKE \'${database}\'
   `)
- //var dbCheck = false;
-  //if(dbExist[0][0].Database){var dbCheck = true}else{var dbCheck = false}
-  // const dbCheck = dbExist[0][0].Database
-  // console.log( "test:", dbCheck)
 
+    if (dbExist[0][0]) {
 
-    if (dbExist[0][0]) 
-    
-    {
-      console.log("existe  " )  
       // connect to db
       const sequelize = new Sequelize(database, username, password, {
           host: host,
@@ -115,32 +108,15 @@ const connection = await mysql.createConnection({
    
         db.Sequelize = Sequelize;
         db.sequelize = sequelize;
-         
-        // db.user = require('../components/user/userModel')(sequelize, Sequelize);
-        // db.role = require('../components/role/roleModel')(sequelize, Sequelize);
-         
-        // db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'roleId', otherKey: 'userId'});
-        // db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'userId', otherKey: 'roleId'});
-  
-        // db.role = require('../components/role/roleController');   
-  
-  
-  
-      // init models and add them to the exported db object
-     // db.User = require('../users/user.model')(sequelize);
   
       // sync all models with database
       await sequelize.sync().then(() => {
   
-  //initial()
       });
   
   }
     
     else{
-
-
-console.log("exist pas " ) 
 
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\` DEFAULT CHARACTER SET = \`${charSet}\` ;`)
     .then(() => {
@@ -157,7 +133,7 @@ console.log("exist pas " )
       console.error("Détail:", err.parent);
   
       debug(
-        "Sequelize - Impossible de se connecter à la base de données MySQL, debug:",
+        "Sequelize - Impossible de créer la base de donnée MySQL, debug:",
         err
       );
     });
@@ -231,7 +207,6 @@ fs
   });
 
 
-// module.exports = db ;
    
   }
 
