@@ -1,5 +1,4 @@
 module.exports = {
-
-	'secret': 'ilovescotchyscotch',
-
-};
+	'secret': 'fullhestack-super-secret-key',
+	ROLEs: ['USER', 'ADMIN', 'MODERATOR']
+  };
