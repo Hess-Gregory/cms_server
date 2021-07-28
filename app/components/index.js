@@ -1,56 +1,56 @@
-import sequelize from '../config/dbConnect';
-const Sequelize = require('sequelize');
- 
-const db = {};
- 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
- 
-db.user = require('./user/userModel')(sequelize, Sequelize);
-db.role = require('./role/roleModel')(sequelize, Sequelize);
- 
-db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'roleId', otherKey: 'userId'});
-db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'userId', otherKey: 'roleId'});
+"use strict";
 
-module.exports = db;
+import {sequelize} from '../config/dbConnect';
 
-
-
-
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
-
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+const   fs        = require("fs"),
+        path      = require("path"),
+        Sequelize = require("sequelize"),
+        basename  = path.basename(__filename),
+        db        = {};
 
 fs
   .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+  .filter(function(file) 
+        {
+          return 
+            (
+              file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+            );
+        }
+  )
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+  .forEach(function(file) 
+      {
+        const model = sequelize["import"](path.join(__dirname, file));
+          db[model.name] = model;
+      }
+  );
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+  Object.keys(db).forEach(function(modelName) 
+    {
+      if (db[modelName].associate) 
+      {
+          db[modelName].associate(db);
+      }
+    }
+  );
+
+db.sequelize  = sequelize;
+db.Sequelize  = Sequelize;
+
+db.about      = require("./about/aboutModel")(sequelize, Sequelize);
+db.blog       = require("./blog/blogModel")(sequelize, Sequelize);
+db.carousel   = require("./carousel/carouselModel")(sequelize, Sequelize);
+db.company    = require("./company/companyModel")(sequelize, Sequelize);
+db.contact    = require("./contact/contactModel")(sequelize, Sequelize);
+db.gallery    = require("./gallery/galleryModel")(sequelize, Sequelize);
+db.header     = require("./header/headerModel")(sequelize, Sequelize);
+db.inbox      = require("./inbox/inboxModel")(sequelize, Sequelize);
+//db.role       = require("./role/roleModel")(sequelize, Sequelize);
+db.socmed     = require("./socmed/socmedModel")(sequelize, Sequelize);
+db.team       = require("./team/teamModel")(sequelize, Sequelize);
+db.testimony  = require("./testimony/testimonyModel")(sequelize, Sequelize);
+db.service    = require("./service/serviceModel")(sequelize, Sequelize);
+db.user       = require("./user/userModel")(sequelize, Sequelize);
 
 module.exports = db;
