@@ -22,7 +22,7 @@ app.listen(config.express.port, config.express.ip,
       }
 
       log.info("L'API tourne en mode : " + modeApi)
-      log.info("La magie se passe sur le port :"+ config.express.port)
+   //   log.info("La magie se passe sur le port :"+ config.express.port)
       log.info("Le serveur est disponible à l'adresse suivante : http://" +
         config.express.ip + ':' + config.express.port)
       log.info("Nous sommes maintenant tous condamnés!")

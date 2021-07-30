@@ -7,10 +7,16 @@ const app    = express(),
 	  join   = require('path').join,
 	  cors   = require('cors');
 
+	  const bodyParser = require("body-parser");
+	  
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cors())
 	app.use(require('../components/auth/authRouter'))
 	app.use(require('../components/user/userRouter'))
-	//app.use(require('../components/role/roleRouter'))
 	app.use(require('../components/carousel/carouselRouter'))
 	app.use(require('../components/service/serviceRouter'))
 	app.use(require('../components/gallery/galleryRouter'))
