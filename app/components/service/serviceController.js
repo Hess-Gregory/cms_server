@@ -30,31 +30,57 @@ module.exports = {
 	},
 
 	existService(req, res){
-
-		Promise
-		.all([
-		req.body.title && db.service.findAndCountAll({
-				where: 
-					{
-						title: req.body.title, 
-						[Op.and]: 
-						{id: {[Op.ne]: req.params.serviceId}}
-					}
-			})
-		])
-		.then( ([ foundTitle ]) => {
+		if (req.params.serviceId){
+			Promise
+			.all([
+			req.body.title && db.service.findAndCountAll({
+					where: 
+						{
+							title: req.body.title, 
+							[Op.and]: 
+							{id: {[Op.ne]: req.params.serviceId}}
+						}
+				})
+			])
+			.then( ([ foundTitle ]) => {
+				
+			if(foundTitle > 0) {
+				res.json({exist: true, msg: 'Le titre existe déjà'})
+			} else {
+				return res.json({exist: false , msg: 'Le titre n\'existe pas'})	
+			}
 			
-		if(foundTitle > 0) {
-			res.json({exist: true, msg: 'Le titre existe déjà'})
-		} else {
-			return res.json({exist: false , msg: 'Le titre n\'existe pas'})	
+			})
+			.catch(err => {
+				console.log(err)
+				res.json({exist: true, msg: 'Échec de la vérification de l\'existence'})
+			});
+
+		}else{
+			Promise
+			.all([
+			req.body.title && db.service.findAndCountAll({
+					where: 
+						{
+							title: req.body.title
+						}
+				})
+			])
+			.then( ([ foundTitle ]) => {
+				
+			if(foundTitle > 0) {
+				res.json({exist: true, msg: 'Le titre existe déjà'})
+			} else {
+				return res.json({exist: false , msg: 'Le titre n\'existe pas'})	
+			}
+			
+			})
+			.catch(err => {
+				console.log(err)
+				res.json({exist: true, msg: 'Échec de la vérification de l\'existence'})
+			});
+			
 		}
-		
-		})
-		.catch(err => {
-			console.log(err)
-			res.json({exist: true, msg: 'Échec de la vérification de l\'existence'})
-		});
 	}
 
 }

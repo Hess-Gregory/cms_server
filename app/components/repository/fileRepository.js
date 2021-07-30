@@ -23,7 +23,7 @@ exports.storeImage = (model, req, res, inputField, path) => {
         }
         else {
           return res.status(400).json({
-            error: part.filename + ' is not allowed'
+            error: part.filename + 'n\'est pas autorisé'
           })
         }
     }
@@ -38,7 +38,7 @@ exports.storeImage = (model, req, res, inputField, path) => {
       
         if (err) {
           return res.status(400).json({
-            error: ' Image could not be uploaded'
+            error: ' L\'image n\'a pas pu être téléchargée'
           })
         }
 
@@ -49,14 +49,14 @@ exports.storeImage = (model, req, res, inputField, path) => {
           // 1MB = 1000000
           if (files[inputField].size > 1000000) {
             return res.status(400).json({
-              error: 'Image should be less than 1mb in size'
+              error: 'La taille de l\'image doit être inférieure à 1 Mo'
             })
           }
 
           fields[inputField] = files[inputField].name;
         } else {
           return res.status(400).json({
-            error: 'No image found'
+            error: 'Aucune image trouvée'
           })
         }
         create(model, fields, res)
@@ -77,7 +77,7 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
             this.handlePart(part);
         } else {
           return res.status(400).json({
-            error: part.filename + ' is not allowed'
+            error: part.filename + ' n\'est pas autorisé'
           })
         }
     }
@@ -93,7 +93,7 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
     form.parse(req, (err, fields, files) => {
       if (err) {
         res.status(400).json({
-          error: ' Image could not be uploaded'
+          error: ' L\'image n\'a pas pu être téléchargée'
         })
       }
 
@@ -105,7 +105,7 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
         // 1MB = 1000000
         if (files[inputField].size > 1000000) {
           res.send({
-            error: 'Image should be less than 1mb in size'
+            error: 'La taille de l\'image doit être inférieure à 1 Mo'
           })
         }
         // check if id exist
@@ -123,7 +123,7 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
                   // update record
                   update(model, id, fields, res);
                 } else {
-                  res.send({ error: 'ID not Found'})
+                  res.send({ error: 'ID introuvable'})
                 }
                 
              })
@@ -132,7 +132,7 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
                if (fs.existsSync(uploadPath + path + '/' + files[inputField].name)) {
                  fs.unlinkSync(uploadPath + path + '/' + files[inputField].name)
                } 
-               res.send({ error: 'ID not Found'})
+               res.send({ error: 'ID introuvable'})
              });
       } else {
         // update record without file upload but check if id exist first 
@@ -145,13 +145,13 @@ exports.updateImage = (model, id, req, res, inputField, path) => {
                 if(newModel){
                     update(model, id, fields, res);
                 } else {
-                  res.send({ error: 'ID not Found'})
+                  res.send({ error: 'ID introuvable'})
                 }
                   
              })
              .catch(err => {
               console.log(err)
-                res.send({ error: 'ID not Found'})
+                res.send({ error: 'ID introuvable'})
              });
       }
     
@@ -171,19 +171,16 @@ exports.deleteImage = (model, id, req, res, inputField, path) => {
         }
       })
        .then(newModel => {
-         console.log("delete 1")
           if(newModel){
-                        console.log("delete 2")
             // delete old image
             deleteOldImage(model, id, path, inputField, res)
-            console.log("delete 3")
             destroy(model, id, res, path)
           } else {
-            res.send({ error: 'ID not Found'})
+            res.send({ error: 'ID introuvable'})
           }
         })
         .catch(err => {
-            res.send({ error: 'ID not Found'})
+            res.send({ error: 'ID introuvable'})
         });
 }
 
@@ -206,7 +203,7 @@ const deleteOldImage = (model, id, path, inputField, res) => {
         //file removed
       } catch(err) {
         res.send({
-          error: "Image can't be deleted"
+          error: "L'image ne peut pas être supprimée"
         })
       }
   });
