@@ -46,11 +46,12 @@ db.contact    = require("./contact/contactModel")(sequelize, Sequelize);
 db.gallery    = require("./gallery/galleryModel")(sequelize, Sequelize);
 db.header     = require("./header/headerModel")(sequelize, Sequelize);
 db.inbox      = require("./inbox/inboxModel")(sequelize, Sequelize);
-//db.role       = require("./role/roleModel")(sequelize, Sequelize);
 db.socmed     = require("./socmed/socmedModel")(sequelize, Sequelize);
 db.team       = require("./team/teamModel")(sequelize, Sequelize);
 db.testimony  = require("./testimony/testimonyModel")(sequelize, Sequelize);
 db.service    = require("./service/serviceModel")(sequelize, Sequelize);
 db.user       = require("./user/userModel")(sequelize, Sequelize);
 
+  
+  db.ROLES = ["visiteur", "administrateur", "modérateur"];
 module.exports = db;

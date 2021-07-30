@@ -50,7 +50,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 1",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 });
@@ -59,7 +59,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 2",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 });
@@ -68,7 +68,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 3",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 });
@@ -77,7 +77,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 4",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 }); 
@@ -86,7 +86,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 5",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 });
@@ -95,7 +95,7 @@ module.exports = function(sequelize, DataTypes) {
                     defaults: 
                         {
                         username    :   "Testimony 6",
-                        icon        :   "icon-user",
+                        avatar        :   "icon-user",
                         comment     :   "testimony comment"
                         },
                 });                

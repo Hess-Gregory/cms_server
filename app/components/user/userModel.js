@@ -1,93 +1,103 @@
-// // Include Sequelize module.
-// const Sequelize = require('sequelize')
-// // Import sequelize object, 
-// // Database connection pool managed by Sequelize.
-// const sequelize = require('../../config/dbConnect').seqz;
-// const bcrypt = require('bcryptjs');
-// const _ = require("lodash");
-
 /* jshint indent: 2 */
 "use strict";
+const bcrypt = require('bcryptjs');
+const _ = require("lodash");
 
-module.exports = function(sequelize, Sequelize) {
-  const UserScheme =  sequelize.define('users', {
-      id: {
-          autoIncrement: true,
-          type:Sequelize.INTEGER,
-          autoIncrement:true,
-          allowNull:false,
-          primaryKey:true
+module.exports = function(sequelize, DataTypes) {
+    const users  = sequelize.define
+      ("users",
+        {
+          id: 
+            {
+              type:DataTypes.INTEGER,
+              autoIncrement:true,
+              allowNull:false,
+              primaryKey:true
+            },
+          username: 
+            {
+              type: DataTypes.STRING,
+              allowNull: false,
+              validate:{notNull:{msg: 'Quel est le nom d\'utilisateur?'}}
+            },
+          email: 
+            {
+              type: DataTypes.STRING,
+              unique: true,
+              lowercase: true,
+              allowNull: false,
+              validate:{notNull:{msg: 'Quel est l\'adresse mail?'}}
+            },
+          password: 
+            {
+              type: DataTypes.STRING,
+              allowNull: false,
+              validate:{notNull:{msg: 'Quel est le mot de passe?'}}
+            },
+          role: 
+            {
+              type: DataTypes.ENUM('Visiteur', 'Modérateur', 'Administrateur'),
+              defaultValue: 'Visiteur',
+              allowNull: false,
+              validate:{notNull:{msg: 'Quelle est la page d\'en-tête ?'}}
+            },
+          createdAt: 
+            {
+              type: 'TIMESTAMP',
+              defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+              allowNull: false
+            },
+          updatedAt: 
+            {
+              type: 'TIMESTAMP',
+              defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+              allowNull: false
+            }
         },
-        username: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          validate: {
-          notNull: {
-            msg: "What is the user's username?"
-          }},
-          },
-        email: {
-          type: Sequelize.STRING,
-          unique: true,
-          lowercase: true,
-          allowNull: false,
-          validate: {
-          notNull: {
-            msg: 'What is email user?'
-          }
-          }
-        },
-        password: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          validate: {
-          notNull: {
-            msg: 'What is password user?'
-          }
-          }
-        },
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE,
-      }
-      ,
-      {
-      //  hooks: {
-      //   beforeCreate: async (user) => {
-      //    if (user.password) {
-      //     const salt = await bcrypt.genSaltSync(10, 'a');
-      //     user.password = bcrypt.hashSync(user.password, salt);
-      //    }
-      //   },
-      //   beforeUpdate:async (user) => {
-      //    if (user.password) {
-      //     const salt = await bcrypt.genSaltSync(10, 'a');
-      //     user.password = bcrypt.hashSync(user.password, salt);
-      //    }
-      //   }
-      //  },
-      //  instanceMethods: {
-      //   validPassword: (password) => {
-      //     console.log('ce password: ', password)
-      //     console.log('ce password 2: ', this.password)
-      //    return bcrypt.compareSync(password, this.password);
-      //   }
-      //  }
-      }
-    );
-      // UserScheme.prototype.validPassword = async (password, hash) => {
-      //   return await bcrypt.compareSync(password, hash);
-      //  }
-      
-      // UserScheme.findOrCreate(
-      //   {
-      // where: {id: 1},
-      // defaults: {
-      //     username: "Admin",
-      //     email: "admin@localhost.com",
-      //     password: "123456"
-      // },
-      // });
+        {tableName: "users"}
+      );
 
+      users.prototype.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.password);
+      };
+    
+      users.prototype.safeModel = function() {
+        return _.omit(this.toJSON(), ["password"]);
+      };
 
-      return UserScheme;
-    };
+      users.sync().then(() => {
+        users.findOrCreate({
+                    where: {id: 1},
+                    defaults: 
+                        {
+                          username  : "Admin",
+                          email     : "admin@localhost.com",
+                          password  : bcrypt.hashSync("123456", bcrypt.genSaltSync(8), null),
+                          role      : "Administrateur"
+                        },
+                    });
+        users.findOrCreate({
+                    where: {id: 2},
+                    defaults: 
+                        {
+                          username  : "Mod",
+                          email     : "moderateur@localhost.com",
+                          password  : bcrypt.hashSync("123456", bcrypt.genSaltSync(8), null),
+                          role      : "Modérateur"
+                        },
+                    });     
+        users.findOrCreate({
+                    where: {id: 3},
+                    defaults: 
+                        {
+                          username  : "User",
+                          email     : "visiteur@localhost.com",
+                          password  : bcrypt.hashSync("123456", bcrypt.genSaltSync(8), null),
+                          role      : "Visiteur"
+                        },
+                    });                 
+    });
+     
+return users;
+
+};
