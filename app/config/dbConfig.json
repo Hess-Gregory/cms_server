@@ -1,6 +1,5 @@
 {
     "development": {
-      "0": 1,
       "username": "root",
       "password": "",
       "database": "cms-Fullhestack_dev",
@@ -16,7 +15,6 @@
       }
     },
     "test": {
-      "1": 1,
       "username": "root",
       "password": "",
       "database": "cms-Fullhestack_test",
@@ -32,15 +30,14 @@
       }
     },
     "production": {
-      "2": 1,
-      "username": "root",
-      "password": "",
-      "database": "cms-Fullhestack_prod",
+      "username": "hesscnyn_fhkcms",
+      "password": "H#rzJUpv!uk=",
+      "database": "hesscnyn_democms",
       "host": "localhost",
       "dialect": "mysql",
       "charset_collate": "utf8_general_ci",
       "charset_charater": "utf8",
-      "port": 3308,
+      "port": 3306,
       "pool": {
         "max": 5,
         "min": 0,
